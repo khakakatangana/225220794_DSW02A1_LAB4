@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Comparison Tool</title>
+    <style>
+        .column {
+            float: left;
+            margin-right: 1em;
+        }
+        #comparearea {
+            clear: left;
+        }
+        #differences li {
+            font-family: monospace;
+            white-space: pre;
+        }
+        .nochange {
+            background-color: #ccffcc;
+        }
+        .change {
+            background-color: #e5b7b7;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- this block of code is the same as index.html, but with the script source updated to text_compare.js and the CSS moved into a style block in the head for easier editing and comparison. The structure of the HTML is unchanged, with two columns for expected and actual output, buttons for comparing and clearing, and an ordered list for displaying differences. -->
+    <div class="column">
+        <h2>Expected output</h2>
+        <textarea id="expected" rows="10" cols="50"></textarea>
+    </div>
+    <div class="column">
+        <h2>Your Actual output</h2>
+        <textarea id="actual" rows="10" cols="50"></textarea>
+    </div>
+    <div id="comparearea">
+        <button id="compare-btn">Compare</button>
+        <button id="clear-btn">Clear</button>
+    </div>
+    <ol id="differences"></ol>
+
+    <script src="text_compare.js"></script>
+</body>
+</html>

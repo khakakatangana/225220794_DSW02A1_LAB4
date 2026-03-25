@@ -3,68 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Compare & Image Favorites</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        section { margin-bottom: 1.5rem; }
-        textarea { width: 100%; height: 90px; margin-top: 0.5rem; margin-bottom: 0.5rem; }
-        #differences { list-style-type: decimal; margin-left: 20px; }
-        .pics img, #favourites img { width: 90px; height: 90px; margin: 0.2rem; cursor: pointer; object-fit: cover; }
-        .selected { opacity: 0.7; }
-    </style>
+    <title>Text Comparison Tool</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Text Comparison</h1>
-    <section>
-        <!-- This block of code basically compares two text inputs and shows the differences. It highlights added, removed, and unchanged lines.
-         You can clear the inputs and results using the "Clear" button.
-         The comparison is done line by line, so it works best with multi-line text.
-         It's a simple tool for quickly identifying differences between two pieces of text.
-         You can use it for comparing code snippets, documents, or any text content.
-         Just enter the expected text in the first textarea and the actual text in the second textarea, then click "Compare" to see the results.
-         The results will show which lines were added, removed, or unchanged, making it easy to spot differences at a glance.
-         This can be especially useful for developers, writers, or anyone who needs to compare versions of text quickly and efficiently.
-         Try it out and see how it works!
-         You can also experiment with different types of text to see how the comparison handles various scenarios, such as added lines, removed lines, and unchanged lines.
-         It's a great way to visually identify differences and understand how two pieces of text relate to each other.
-         Whether you're comparing code, documents, or any other text, this tool can help you quickly identify changes and understand the differences between two versions of text. -->
-         Give it a try and see how it can help you with your text comparison
-        <label for="expected">Expected Text</label>
-        <textarea id="expected" placeholder="Enter expected text"></textarea>
+    <div class="column">
+        <h2>Expected output</h2>
+        <textarea id="expected" rows="10" cols="50"></textarea>
+    </div>
+    <div class="column">
+        <h2>Your Actual output</h2>
+        <textarea id="actual" rows="10" cols="50"></textarea>
+    </div>
+    <div id="comparearea">
+        <button id="compare-btn">Compare</button>
+        <button id="clear-btn">Clear</button>
+    </div>
+    <ol id="differences"></ol>
 
-        <label for="actual">Actual Text</label>
-        <textarea id="actual" placeholder="Enter actual text"></textarea>
-        <!-- this is a simple text comparison tool that allows you to compare two pieces of text and see the differences between them. You can enter the expected text in the first textarea and the actual text in the second textarea. When you click the "Compare" button, it will analyze both texts and display the differences in a list format. Added lines will be highlighted in green, removed lines will be highlighted in red, and unchanged lines will be displayed normally. If both text areas are empty, it will prompt you to enter text in both areas. You can also clear the inputs and results using the "Clear" button. This tool is useful for quickly identifying differences between two versions of text, such as code snippets, documents, or any other textual content. -->
+    <script src="compare.js"></script>
 
-        <div id="comparearea">
-            <button id="compare-btn">Compare</button>
-            <button id="clear-btn">Clear</button>
-        </div>
-
-        <ol id="differences"></ol>
-    </section>
-
-
-    <h1>Image Favorites</h1>
-    <section>
-        <!-- basically this section allows you to click on images to add them to your favorites. When you click on an image in the main gallery, it will move to the favorites section. If you click on an image in the favorites section, it will move back to the main gallery. This is a simple way to manage your favorite images by clicking on them. You can easily add or remove images from your favorites by clicking on them, making it a convenient way to organize and keep track of your preferred images. Try clicking on the images below to see how it works!
-         You can click on any image in the main gallery to add it to your favorites. Once an image is added to the favorites section, it will be removed from the main gallery. If you -->
-        <p>Click images to move to favorites; click in favorites to revert.</p>
-        <div class="pics">
-            <img src="https://picsum.photos/seed/1/100" alt="Image 1" />
-            <img src="https://picsum.photos/seed/2/100" alt="Image 2" />
-            <img src="https://picsum.photos/seed/3/100" alt="Image 3" />
-        </div>
-
-        <h3>Favorites</h3>
-        <div id="favourites"></div>
-
-        <h3>Log</h3>
-        <ul id="actions"></ul>
-        <p id="message"></p>
-        <p id="counter"></p>
-    </section>
-
-    <script src="INDEX.JS"></script>
-</body>
-</html>

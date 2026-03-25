@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Mandela Favorites</title>
+   <style>
+      .mandela { width: 100px; height: 100px; margin: 5px; cursor: pointer; }
+      .selected { border: 3px solid green; }
+      #pics, .favorites-list { display: flex; flex-wrap: wrap; gap: 8px; }
+      .favorites-container { min-height: 120px; border: 1px dashed #999; padding: 8px; margin-top: 10px; }
+      .favorites-list { min-height: 100px; }
+      #actions { margin-top: 1rem; padding-left: 20px; }
+   </style>
+</head>
+<body>
+<h1><img class="mandela" src="mandela/mandel1.jpg" alt="Mandela" /> Freedom Fighter Pics!</h1>
+<div id="pics">
+   <img class="mandela" src="mandela/mandel1.jpg" alt="Mandela 1" />
+   <img class="mandela" src="mandela/mandela2.jpg" alt="Mandela 2" />
+   <img class="mandela" src="mandela/mandela3.jpg" alt="Mandela 3" />
+   <img class="mandela" src="mandela/mandela4.jpg" alt="Mandela 4" />
+   <img class="mandela" src="mandela/mandela5.jpg" alt="Mandela 5" />
+   <img class="mandela" src="mandela/mandela6.jpg" alt="Mandela 6" />
+</div>
+<!-- basically the same as freedom_fighter.html but with some structural changes to the favorites section and updated image paths -->
+<p>Click a picture to move it to the favorites.</p>
+<div id="favourites" class="favorites-container">
+   <h3>Favorite photos:</h3>
+   <div class="favorites-list"></div>
+</div>
+<ul id="actions"></ul>
+<p id="message"></p>
+<p id="counter"></p>
+<script src="Freedom_fighter.JS"></script>
+</body>
+</html>

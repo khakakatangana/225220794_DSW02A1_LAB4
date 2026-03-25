@@ -1,157 +1,91 @@
- const compareBtn = document.getElementById("compare-btn");
-const clearBtn = document.getElementById("clear-btn");
-const expected = document.getElementById("expected");
-const actual = document.getElementById("actual");
-const result = document.getElementById("result");
-
-compareBtn.addEventListener("click", function () {
-    // Clear previous results
-    result.innerHTML = "";
-
-    let text1 = expected.value.trim();
-    let text2 = actual.value.trim();
-
-    // Validation
-    if (text1 === "" && text2 === "") {
-        result.innerHTML = "<li>Please enter text in both areas.</li>";
-        return;
-    }
-
-    let lines1 = text1.split("\n");
-    let lines2 = text2.split("\n");
-
-    let differences = [];
-
-    // Check line by line
-    let max = Math.max(lines1.length, lines2.length);
-
-    for (let i = 0; i < max; i++) {
-        if (lines1[i] !== lines2[i]) {
-            differences.push(`Line ${i + 1}: "${lines1[i] || ""}" !== "${lines2[i] || ""}"`);
-        }
-    }
-
-    // If number of lines differ
-    if (lines1.length !== lines2.length) {
-        let li = document.createElement("li");
-        li.textContent = `Number of lines differ: Expected (${lines1.length}) vs Actual (${lines2.length})`;
-        result.appendChild(li);
-    }
-
-    // Show results
-    if (differences.length > 0) {
-        result.className = "change";
-
-        let title = document.createElement("li");
-        title.textContent = "Texts are different";
-        result.appendChild(title);
-
-        differences.forEach(diff => {
-            let li = document.createElement("li");
-            li.textContent = diff;
-            result.appendChild(li);
-        });
-
-    } else {
-        result.className = "nochange";
-
-        let li = document.createElement("li");
-        li.textContent = "No differences found";
-        result.appendChild(li);
-    }
-});
-
-// Clear button
-clearBtn.addEventListener("click", function () {
-    expected.value = "";
-    actual.value = "";
-    result.innerHTML = "";
-});
 
 
-const images = document.querySelectorAll(".pics img");
-const favourites = document.getElementById("favourites");
-const actions = document.getElementById("actions");
+const picsContainer = document.getElementById("pics");
+const favouritesContainer = document.querySelector("#favourites .favorites-list");
+const actionsList = document.getElementById("actions");
 const message = document.getElementById("message");
 const counter = document.getElementById("counter");
 
-let count = 0;
-let total = images.length;
+let selectedCount = 0;
+const images = Array.from(document.querySelectorAll("#pics img"));
+const totalImages = images.length;
 
+// Style images for consistent layout and hover tooltip
 images.forEach((img, index) => {
     img.dataset.originalIndex = index;
+    img.style.width = "130px";
+    img.style.height = "130px";
+    img.style.objectFit = "cover";
+    img.style.cursor = "pointer";
+    img.title = img.alt || `Nelson Mandela Image ${index + 1}`;
+});
 
-    img.addEventListener("click", function () {
+const updateCounter = () => {
+    counter.textContent = `Remaining: ${totalImages - selectedCount}`;
+};
 
-        // Prevent duplicate clicks
-        if (img.classList.contains("selected")) return;
+const logAction = text => {
+    const li = document.createElement("li");
+    li.textContent = text;
+    actionsList.appendChild(li);
+};
 
-        // Move to favourites
-        favourites.appendChild(img);
+images.forEach((img, index) => {
+    img.addEventListener("click", () => {
+        if (img.classList.contains("selected")) {
+            return;
+        }
+
+        // move to favourites area (rightmost end)
+        favouritesContainer.appendChild(img);
 
         img.classList.add("selected");
         img.style.border = "3px solid green";
 
-        count++;
+        selectedCount += 1;
+        message.textContent = `Image ${index + 1} selected as favorite number ${selectedCount}`;
+        logAction(`Moved ${img.src} to favorites`);
+        updateCounter();
 
-        // Update message
-        message.textContent = `Image ${index + 1} selected as favorite number ${count}`;
-
-        // Add action log
-        let li = document.createElement("li");
-        li.textContent = `Moved ${img.src} to favorites`;
-        actions.appendChild(li);
-
-        // Update counter
-        counter.textContent = `Remaining: ${total - count}`;
-
-        // If all selected
-        if (count === total) {
+        if (selectedCount === totalImages) {
             message.textContent = "All images have been selected!";
         }
     });
-
-    // Hover tooltip
-    img.title = img.alt;
 });
 
-// Revert functionality
-favourites.addEventListener("click", function (e) {
-    if (e.target.tagName === "IMG") {
+favouritesContainer.addEventListener("click", e => {
+    if (e.target && e.target.tagName === "IMG") {
+        const img = e.target;
+        const originalIndex = Number(img.dataset.originalIndex);
 
-        let img = e.target;
-        let originalIndex = Number(img.dataset.originalIndex);
-        let mainPics = document.querySelector(".pics");
-
-        // Move back to original list in original order
+        // this block of code moves the image back to its original position
+        const mainPics = picsContainer;
         let inserted = false;
+
         Array.from(mainPics.children).forEach(child => {
-            let childIndex = Number(child.dataset.originalIndex);
+            const childIndex = Number(child.dataset.originalIndex);
             if (!inserted && childIndex > originalIndex) {
                 mainPics.insertBefore(img, child);
                 inserted = true;
             }
         });
+
         if (!inserted) {
             mainPics.appendChild(img);
         }
 
         img.classList.remove("selected");
-        img.style.border = "";
+        img.style.border = "2px solid transparent";
 
-        count--;
+        selectedCount -= 1;
+        logAction(`Reverted ${img.src} back to the main list`);
+        updateCounter();
 
-        // Log action
-        let li = document.createElement("li");
-        li.textContent = `Reverted ${img.src} back to the main list`;
-        actions.appendChild(li);
-
-        // Update counter
-        counter.textContent = `Remaining: ${total - count}`;
-
-        // Update message when not all selected
-        if (count < total) {
-            message.textContent = `There are ${total - count} images remaining`;
+        if (selectedCount < totalImages) {
+            message.textContent = `There are ${totalImages - selectedCount} images remaining`;
         }
     }
 });
+
+// Initialize counter text
+updateCounter(); 
